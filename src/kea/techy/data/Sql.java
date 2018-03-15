@@ -9,9 +9,9 @@ public class Sql
 {
     private final String URL = "jdbc:mysql://%s/%s?autoReconnect=true&useSSL=false";
     private String dbname = "tech";
-    private String host = "localhost:4200";
-    private String user = "root";
-    private String pass = "pass1234";
+    private String host = "localhost:4200"; // Change port = localhost:xxxx
+    private String user = "root"; // Change
+    private String pass = "pass1234"; // Change
     private String url;
 
     //private Connection conn;
@@ -91,7 +91,8 @@ public class Sql
             else
             {
                 Statement statement = conn.createStatement();
-                result = statement.executeQuery(String.format("SELECT * FROM tech.users WHERE username='%s' AND password='%s'", username, password));
+                String q = String.format("SELECT * FROM tech.users WHERE username='%s' AND password='%s'", username, password);
+                result = statement.executeQuery(q);
                 //result = getUnsafe(conn, String.format(query, username, password));
             }
 
@@ -115,10 +116,11 @@ public class Sql
             salt = Crypto.generateSalt();
             password = Base64.getEncoder().encodeToString(Crypto.hashPassword(password.toCharArray(), salt));
 
-            query += " ?,";
+            query += " ?, ?)";
         }
+        else
+            query += "?, null)";
 
-        query +=  " ?)";
         try(Connection conn = getConn())
         {
             // Insert query and define to get generated keys
