@@ -40,6 +40,9 @@ public class Main
                     case "signup":
                         requestSignup();
                         break;
+                    case "signout":
+                        user = null;
+                        break;
                     case "exit":
                         return;
                     default: out.println("Command not known");
@@ -52,6 +55,7 @@ public class Main
 
     private void requestLogin()
     {
+
 
         // While user has not been retreived
         while (user == null)
